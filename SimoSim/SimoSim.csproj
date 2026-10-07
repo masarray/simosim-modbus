@@ -43,7 +43,7 @@
       <HintPath>..\packages\EasyModbusTCP.5.6.0\lib\net40\EasyModbus.dll</HintPath>
     </Reference>
     <Reference Include="HMI.Controls">
-      <HintPath>..\..\SimoCode_Tester\SimoCode_Tester\HMI.Controls.dll</HintPath>
+      <HintPath>..\Dependencies\HMI.Controls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -110,6 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="factory.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.8.0" PrivateAssets="all" />
+    <PackageReference Include="Costura.Fody" Version="5.7.0" PrivateAssets="all" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
