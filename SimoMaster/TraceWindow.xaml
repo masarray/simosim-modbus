@@ -1,0 +1,158 @@
+﻿<Window x:Class="SimoMaster.TraceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Modbus Diagnostic Monitor"
+        Height="820"
+        Width="470"
+        MinHeight="480"
+        MinWidth="300"
+        Background="#1E1E1E"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ================= HEADER ================= -->
+        <Border Grid.Row="0"
+                CornerRadius="4"
+                Padding="6"
+                Background="#2D2D30"
+                Margin="0,0,0,8">
+
+            <DockPanel>
+
+                <TextBlock Text="MODBUS FRAME TRACE"
+                           Foreground="White"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <Border x:Name="bdQuality"
+                        Background="LimeGreen"
+                        CornerRadius="3"
+                        Padding="4"
+                        HorizontalAlignment="Right">
+
+                    <TextBlock x:Name="txtQuality"
+                               Text="GOOD"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="Black"/>
+                </Border>
+
+            </DockPanel>
+        </Border>
+
+        <!-- ================= CONNECTION INFO ================= -->
+        <Border Grid.Row="1"
+                Background="#252526"
+                CornerRadius="4"
+                Padding="6"
+                Margin="0,0,0,8">
+
+            <UniformGrid Columns="4">
+
+                <StackPanel Margin="0,0,59.8,0.4">
+                    <TextBlock Text="Mode" Foreground="Gray" FontSize="11"/>
+                    <TextBlock x:Name="txtMode"
+                               Text="TCP"
+                               Foreground="White"
+                               FontSize="12"
+                               FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Margin="-59.8,0,-65.4,0.4">
+                    <TextBlock Text="Endpoint" Foreground="Gray" FontSize="11"/>
+                    <TextBlock x:Name="txtEndpoint"
+                               Text="192.168.1.10 → 192.168.1.20:502"
+                               Foreground="White"
+                               FontSize="12"/>
+                </StackPanel>
+
+                <StackPanel Margin="71.2,0,-12.4,0.4">
+                    <TextBlock Text="Slave ID" Foreground="Gray" FontSize="11"/>
+                    <TextBlock x:Name="txtSlave"
+                               Text="01"
+                               Foreground="White"
+                               FontSize="12"/>
+                </StackPanel>
+
+                <StackPanel Margin="18.2,0,-0.4,0.4">
+                    <TextBlock Text="Latency" Foreground="Gray" FontSize="11"/>
+                    <TextBlock x:Name="txtLatency"
+                               Text="3 ms"
+                               Foreground="White"
+                               FontSize="12"/>
+                </StackPanel>
+
+            </UniformGrid>
+        </Border>
+
+        <!-- ================= TRACE AREA ================= -->
+        <Border Grid.Row="2"
+                Background="#1B1B1C"
+                CornerRadius="4"
+                Padding="6">
+
+            <TextBox x:Name="txtTrace"
+                     Background="#1B1B1C"
+                     Foreground="White"
+                     FontFamily="Consolas"
+                     FontSize="12"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"
+                     IsReadOnly="True"
+                     TextWrapping="NoWrap"/>
+        </Border>
+
+        <!-- ================= ENGINEERING BONUS ================= -->
+        <Border Grid.Row="3"
+                Background="#252526"
+                CornerRadius="4"
+                Padding="6"
+                Margin="0,8,0,0">
+
+            <UniformGrid Columns="3">
+
+                <StackPanel>
+                    <TextBlock Text="Stability"
+                               Foreground="Gray"
+                               FontSize="11"/>
+                    <TextBlock x:Name="txtStability"
+                               Text="100%"
+                               Foreground="LimeGreen"
+                               FontSize="12"
+                               FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Last Error"
+                               Foreground="Gray"
+                               FontSize="11"/>
+                    <TextBlock x:Name="txtLastError"
+                               Text="None"
+                               Foreground="White"
+                               FontSize="12"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Diagnosis"
+                               Foreground="Gray"
+                               FontSize="11"/>
+                    <TextBlock x:Name="txtDiagnosis"
+                               Text="System Normal"
+                               Foreground="White"
+                               FontSize="12"/>
+                </StackPanel>
+
+            </UniformGrid>
+        </Border>
+
+    </Grid>
+</Window>

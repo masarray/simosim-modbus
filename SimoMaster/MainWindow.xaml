@@ -1,0 +1,679 @@
+﻿<Window x:Class="SimoMaster.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:hmi="clr-namespace:HMI.Controls;assembly=HMI.Controls"
+        Title="Simocode Modbus Master"
+        Height="723"
+        Width="492"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        Icon="/operational-system.png">
+
+    <Window.Resources>
+
+        <Style x:Key="IndustrialButton" TargetType="Button">
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#444"/>
+            <Setter Property="BorderBrush" Value="#222"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                            CornerRadius="6"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <!-- Hover -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border"
+                                Property="Background"
+                                Value="#FFC107"/>
+                                <!-- Amber -->
+                                <Setter Property="Foreground"
+                                Value="Black"/>
+                            </Trigger>
+
+                            <!-- Pressed -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border"
+                                    Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.96"
+                                                    ScaleY="0.96"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+                            <!-- Disabled -->
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <!-- ================= ROWS ================= -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+            <RowDefinition Height="28"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+
+            <MenuItem Header="_File">
+
+                <MenuItem Header="Connect"
+                  Click="MenuConnect_Click"/>
+
+                <MenuItem Header="Disconnect"
+                  Click="MenuDisconnect_Click"/>
+
+                <Separator/>
+
+                <MenuItem Header="Scan Devices" Name="menuScanDevices"
+          Click="MenuScanDevices_Click"/>
+
+                <Separator/>
+
+                <MenuItem Header="Exit"
+                  Click="MenuExit_Click"/>
+
+            </MenuItem>
+
+            <MenuItem Header="View">
+                <MenuItem Header="Always On Top"
+              x:Name="menuAlwaysOnTop"
+              IsCheckable="True"
+              Click="MenuAlwaysOnTop_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="_Tools">
+
+                <MenuItem Header="Clear Log"
+                  Click="MenuClearLog_Click"/>
+
+                <MenuItem Header="Reset Counters"
+                  Click="MenuResetCounters_Click"/>
+
+            </MenuItem>
+
+            <MenuItem Header="_Register">
+
+                <MenuItem Header="Register Mapping"
+                  Click="MenuRegisterMapping_Click"/>
+
+            </MenuItem>
+
+            <MenuItem Header="_Diagnostic">
+
+                <MenuItem Header="Modbus Frame Trace"
+              Click="MenuTrace_Click"/>
+
+            </MenuItem>
+
+            <MenuItem Header="_Help">
+
+                <MenuItem Header="About"
+                  Click="MenuAbout_Click"/>
+
+            </MenuItem>
+
+        </Menu>
+
+        <!-- ===================================================== -->
+        <!-- ======================= HEADER ======================= -->
+        <!-- ===================================================== -->
+
+        <Grid Grid.Row="0">
+
+
+
+            <Label Content="Nama Feeder:"
+                   Margin="9,30,1,0"
+                   VerticalAlignment="Top"/>
+
+            <ComboBox x:Name="txtFeeder"
+                      IsEditable="True"
+                      Width="201"
+                      Height="22"
+                      Margin="94,32,0,16"
+                      HorizontalAlignment="Left"
+                      Text="SIMOCODE"/>
+
+
+
+            <Button x:Name="Connect"
+                    Style="{StaticResource IndustrialButton}"
+                    Content="Connect"
+                    Width="163"
+                    Margin="300,30,0,14"
+                    HorizontalAlignment="Left"
+                    Background="LightCoral"
+                    Foreground="Black"
+                    Click="BtnStartSim_Click" Height="NaN" FontWeight="Bold" FontStyle="Italic" FontSize="14"/>
+
+
+        </Grid>
+
+        <!-- ===================================================== -->
+        <!-- ===================== MIMIC AREA ===================== -->
+        <!-- ===================================================== -->
+
+        <Canvas Grid.Row="1" Background="White">
+
+            <!-- BUS BAR -->
+
+
+            <!-- BUS BAR -->
+            <Rectangle Canvas.Left="169"
+                       Canvas.Top="8"
+                       Width="99"
+                       Height="3"
+                       Fill="Black" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+            <!-- VERTICAL LINE -->
+
+            <!-- CB CONTROL -->
+            <hmi:CbProtControl x:Name="CB1"
+                           Width="100"
+                           Height="100"
+                           Canvas.Left="168"
+                           Canvas.Top="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <hmi:CbProtControl.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </hmi:CbProtControl.RenderTransform>
+            </hmi:CbProtControl>
+            <hmi:CbProtControl x:Name="CBM"
+                           Width="100"
+                           Height="100"
+                           Canvas.Left="168"
+                           Canvas.Top="72" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <hmi:CbProtControl.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </hmi:CbProtControl.RenderTransform>
+            </hmi:CbProtControl>
+
+            <TextBlock Text="MCCB"
+                       Canvas.Left="156"
+                       Canvas.Top="41"
+                       FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+            <!-- MOTOR -->
+
+            <TextBlock Text="Contactor"
+                       Canvas.Left="134"
+                       Canvas.Top="110"
+                       FontWeight="Bold"/>
+
+            <Border
+        HorizontalAlignment="Center"
+        Width="204"
+        Background="#2E2E2E"
+        CornerRadius="6"
+        Padding="8" RenderTransformOrigin="0.5,0.5" Canvas.Left="280" Canvas.Top="318" VerticalAlignment="Top" Height="41">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                    <!-- TX -->
+                    <StackPanel Orientation="Horizontal" Margin="10,0">
+                        <Ellipse x:Name="ledTx"
+                     Width="14"
+                     Height="14"
+                     Fill="Gray"
+                     Stroke="Black"/>
+                        <TextBlock Text=" TX"
+                       Foreground="White"
+                       VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- RX -->
+                    <StackPanel Orientation="Horizontal" Margin="10,0">
+                        <Ellipse x:Name="ledRx"
+                     Width="14"
+                     Height="14"
+                     Fill="Gray"
+                     Stroke="Black"/>
+                        <TextBlock Text=" RX"
+                       Foreground="White"
+                       VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- ERROR -->
+                    <StackPanel Orientation="Horizontal" Margin="10,0">
+                        <Ellipse x:Name="ledComm"
+                     Width="14"
+                     Height="14"
+                     Fill="Gray"
+                     Stroke="Black"/>
+                        <TextBlock Text=" COMM"
+                       Foreground="White"
+                       VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+
+            <!-- ================= CONTROL PANEL ================= -->
+            <Border Canvas.Left="300"
+        Canvas.Top="9"
+        Width="164"
+        Background="#F0F0F0"
+        BorderBrush="#CCCCCC"
+        BorderThickness="1"
+        CornerRadius="6"
+        Padding="10" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                <StackPanel>
+
+                    <TextBlock Text="CONTROL PANEL"
+                   FontWeight="Bold"
+                   Margin="0,0,0,8"/>
+
+                    <Button Content="CLOSE"
+                Style="{StaticResource IndustrialButton}"
+                Background="#D32F2F"
+                Click="BtnClose_Click"/>
+
+                    <Button Content="OPEN"
+                Style="{StaticResource IndustrialButton}"
+                Background="#388E3C"
+                Click="BtnOpen_Click"/>
+
+                    <Button Content="START"
+                Style="{StaticResource IndustrialButton}"
+                Background="#1976D2"
+                Click="BtnStart_Click"/>
+
+                    <Button Content="STOP"
+                Style="{StaticResource IndustrialButton}"
+                Background="#F57C00"
+                Click="BtnStop_Click"/>
+
+                    <Button Content="FAULT INJECT"
+                Style="{StaticResource IndustrialButton}"
+                Background="#B71C1C" Click="BtnFault_Click"/>
+
+                    <Button Content="RESET"
+                Style="{StaticResource IndustrialButton}"
+                Background="#FFA517B5"
+                Click="BtnReset_Click"/>
+
+                </StackPanel>
+            </Border>
+
+            <Border Canvas.Left="10"
+        Canvas.Top="365"
+        Width="454"
+        Height="212"
+        Background="#111"
+        BorderBrush="#444"
+        BorderThickness="1"
+        CornerRadius="6"
+        Padding="5" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                <ListBox x:Name="lstLog"
+             Background="#111"
+             Foreground="White"
+             BorderThickness="0"
+             FontFamily="Consolas"
+             FontSize="12"/>
+            </Border>
+
+            <!-- ================= LED PANEL ================= -->
+            <Border Canvas.Left="8"
+        Canvas.Top="-3"
+        Width="120"
+        Background="#F5F5F5"
+        BorderBrush="#CCCCCC"
+        BorderThickness="1"
+        CornerRadius="6"
+        Padding="10" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+
+                <StackPanel>
+                    <!-- CB OPEN -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Ellipse x:Name="ledCbOpen"
+             Width="18"
+             Height="18"
+             Stroke="Black"
+             StrokeThickness="1"
+             Fill="Gray"/>
+                        <TextBlock Text="CB OPEN"
+               Margin="8,0,0,0"
+               VerticalAlignment="Center"
+               FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <!-- CB CLOSE -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Ellipse x:Name="ledCbClose"
+             Width="18"
+             Height="18"
+             Stroke="Black"
+             StrokeThickness="1"
+             Fill="Gray"/>
+                        <TextBlock Text="CB CLOSE"
+               Margin="8,0,0,0"
+               VerticalAlignment="Center"
+               FontWeight="SemiBold"/>
+                    </StackPanel>
+                    <!-- RUN -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Ellipse x:Name="ledRun"
+                     Width="18"
+                     Height="18"
+                     Stroke="Black"
+                     StrokeThickness="1"
+                     Fill="Gray"/>
+                        <TextBlock Text="RUN"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <!-- STOP -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Ellipse x:Name="ledStop"
+                     Width="18"
+                     Height="18"
+                     Stroke="Black"
+                     StrokeThickness="1"
+                     Fill="Gray"/>
+                        <TextBlock Text="STOP"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <!-- FAULT -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Ellipse x:Name="ledFault"
+                     Width="18"
+                     Height="18"
+                     Stroke="Black"
+                     StrokeThickness="1"
+                     Fill="Gray"/>
+                        <TextBlock Text="FAULT"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <!-- WARNING -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Ellipse x:Name="ledWarning"
+                     Width="18"
+                     Height="18"
+                     Stroke="Black"
+                     StrokeThickness="1"
+                     Fill="Gray"/>
+                        <TextBlock Text="WARNING"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"/>
+                    </StackPanel>
+
+
+                    <!-- REMOTE -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Ellipse x:Name="ledRemote"
+                     Width="18"
+                     Height="18"
+                     Stroke="Black"
+                     StrokeThickness="1"
+                     Fill="Gray"/>
+                        <TextBlock Text="REMOTE"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <!-- SERVICE -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Ellipse x:Name="ledService"
+                     Width="18"
+                     Height="18"
+                     Stroke="Black"
+                     StrokeThickness="1"
+                     Fill="Gray"/>
+                        <TextBlock Text="SERVICE"
+                       Margin="8,0,0,0"
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Border>
+
+            <!-- ================= MEASUREMENT PANEL ================= -->
+            <Border Grid.Row="1"
+        Background="#1E1E1E"
+        CornerRadius="8"
+        BorderBrush="#444"
+        BorderThickness="1"
+        Padding="10" Canvas.Left="-25" Canvas.Top="224" Width="352" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- TITLE -->
+                    <TextBlock Text="MEASUREMENTS"
+                   Foreground="White"
+                   FontWeight="Bold"
+                   FontSize="12                                "
+                   HorizontalAlignment="Center"/>
+
+                    <!-- CONTENT -->
+                    <Grid Grid.Row="1" Margin="0,5,0,0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <!-- CURRENT -->
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="R" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtR"
+                           Text="0.0 A"
+                           Foreground="#00FF66"
+                           FontSize="16"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="S" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtS"
+                           Text="0.0 A"
+                           Foreground="#00FF66"
+                           FontSize="16"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="2">
+                            <TextBlock Text="T" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtT"
+                           Text="0.0 A"
+                           Foreground="#00FF66"
+                           FontSize="16"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <!-- VOLTAGE -->
+                        <StackPanel Grid.Row="1" Grid.Column="0">
+                            <TextBlock Text="VRS" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtVRS"
+                           Text="0 V"
+                           Foreground="#33B5FF"
+                           FontSize="14"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <TextBlock Text="VST" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtVST"
+                           Text="0 V"
+                           Foreground="#33B5FF"
+                           FontSize="14"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="2">
+                            <TextBlock Text="VTR" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtVTR"
+                           Text="0 V"
+                           Foreground="#33B5FF"
+                           FontSize="14"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <!-- POWER -->
+                        <StackPanel Grid.Row="2" Grid.Column="0">
+                            <TextBlock Text="P (kW)" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtP"
+                           Text="0 kW"
+                           Foreground="#FFA500"
+                           FontSize="14"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="1">
+                            <TextBlock Text="S (kVA)" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtSApp"
+                           Text="0 kVA"
+                           Foreground="#FFA500"
+                           FontSize="14"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="2">
+                            <TextBlock Text="PF" Foreground="Gray" FontSize="10"/>
+                            <TextBlock x:Name="txtPF"
+                           Text="0.00"
+                           Foreground="#FFD700"
+                           FontSize="14"
+                           FontWeight="Bold"/>
+                        </StackPanel>
+
+                    </Grid>
+                </Grid>
+            </Border>
+            <hmi:MotorControl x:Name="Motor1"
+                  Width="120"
+                  Height="120"
+                  Canvas.Left="158"
+                  Canvas.Top="133" RenderTransformOrigin="0.5,0.5">
+                <hmi:MotorControl.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </hmi:MotorControl.RenderTransform>
+            </hmi:MotorControl>
+            <TextBlock Text="Motor"
+                Canvas.Left="144"
+                Canvas.Top="184"
+                FontWeight="Bold"/>
+        </Canvas>
+
+        <!-- ===================================================== -->
+        <!-- ===================== STATUS BAR ===================== -->
+        <!-- ===================================================== -->
+
+        <StatusBar Grid.Row="2" Background="#2E2E2E">
+
+            <StatusBarItem>
+                <TextBlock x:Name="txtStatus"
+                   Text="Stopped"
+                   Foreground="Red"/>
+            </StatusBarItem>
+
+            <Separator/>
+
+            <StatusBarItem>
+                <TextBlock x:Name="txtCommInfo"
+                   Text="TX:0 RX:0 0ms"
+                   Foreground="White"/>
+            </StatusBarItem>
+
+            <Separator/>
+
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock Text="Mas Ari Modbus Slave Sim (c) 2026"
+                   Foreground="White"
+                   FontStyle="Italic"/>
+            </StatusBarItem>
+
+        </StatusBar>
+    </Grid>
+</Window>

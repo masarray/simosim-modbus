@@ -1,0 +1,18 @@
+# Visual Studio generated files
+.vs/
+**/bin/
+**/obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.cache
+*.pdb
+*.log
+UpgradeLog.htm
+# NuGet package restore artifacts
+packages/
+*.nupkg
+# Local settings/secrets
+.env
+.env.*

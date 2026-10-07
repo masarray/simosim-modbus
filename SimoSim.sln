@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33712.159
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimoSim", "SimoSim\SimoSim.csproj", "{9989E7D5-6C56-41CF-BF98-F752025159CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimoMaster", "SimoMaster\SimoMaster.csproj", "{09A8F10F-DDA8-49CD-860C-6A9E79451774}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9989E7D5-6C56-41CF-BF98-F752025159CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9989E7D5-6C56-41CF-BF98-F752025159CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9989E7D5-6C56-41CF-BF98-F752025159CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9989E7D5-6C56-41CF-BF98-F752025159CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09A8F10F-DDA8-49CD-860C-6A9E79451774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09A8F10F-DDA8-49CD-860C-6A9E79451774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09A8F10F-DDA8-49CD-860C-6A9E79451774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09A8F10F-DDA8-49CD-860C-6A9E79451774}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {70BC75C7-0867-47F7-9A5C-4A12E0D47691}
+	EndGlobalSection
+EndGlobal

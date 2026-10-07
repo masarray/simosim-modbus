@@ -1,0 +1,109 @@
+﻿<Window x:Class="SimoMaster.DeviceScanWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Modbus Device Scanner"
+        Height="520"
+        Width="750"
+        Background="White"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,10">
+
+            <TextBlock Text="MODBUS DEVICE SCANNER (1–20)"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Foreground="Black"/>
+
+            <TextBlock x:Name="txtMode"
+                       HorizontalAlignment="Right"
+                       Foreground="Gray"
+                       FontSize="14"/>
+        </DockPanel>
+
+        <!-- DATAGRID -->
+        <DataGrid x:Name="dgScan"
+          LoadingRow="dgScan_LoadingRow"
+          AutoGenerateColumns="False"
+          IsReadOnly="True"
+          HeadersVisibility="Column"
+          RowBackground="White"
+          AlternatingRowBackground="#F5F5F5"
+          Foreground="Black">
+
+            <!-- ROW STYLE -->
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+
+                    <!-- Default -->
+                    <Setter Property="Background" Value="White"/>
+
+                    <Style.Triggers>
+
+                        <!-- FAILED -->
+                        <DataTrigger Binding="{Binding Status}" Value="NO RESPONSE">
+                            <Setter Property="Background" Value="#FFCCCC"/>
+                        </DataTrigger>
+
+                        <!-- SLOW -->
+                        <DataTrigger Binding="{Binding Indicator}" Value="🟠">
+                            <Setter Property="Background" Value="#FFE5CC"/>
+                        </DataTrigger>
+
+                        <!-- ONLINE OK -->
+                        <DataTrigger Binding="{Binding Indicator}" Value="🟢">
+                            <Setter Property="Background" Value="#E6FFE6"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header=""
+                                    Binding="{Binding Indicator}"
+                                    Width="40"/>
+
+                <DataGridTextColumn Header="ID"
+                                    Binding="{Binding Id}"
+                                    Width="60"/>
+
+                <DataGridTextColumn Header="Status"
+                                    Binding="{Binding Status}"
+                                    Width="140"/>
+
+                <DataGridTextColumn Header="Latency (ms)"
+                                    Binding="{Binding Latency}"
+                                    Width="120"/>
+
+                <DataGridTextColumn Header="Detail"
+                                    Binding="{Binding Detail}"
+                                    Width="*"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <!-- FOOTER -->
+        <Border Grid.Row="2"
+                Background="#F0F0F0"
+                Padding="8"
+                Margin="0,10,0,0">
+
+            <TextBlock x:Name="txtSummary"
+                       FontWeight="SemiBold"
+                       Foreground="DarkGreen"/>
+        </Border>
+
+    </Grid>
+</Window>

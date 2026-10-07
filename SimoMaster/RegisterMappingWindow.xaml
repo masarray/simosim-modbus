@@ -1,0 +1,61 @@
+﻿<Window x:Class="SimoMaster.RegisterMappingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimoMaster"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Title="RegisterMappingWindow" Height="724" Width="313" Icon="/operational-system.png">
+    <Grid>
+        <StackPanel Margin="20">
+
+            <TextBlock Text="Status Word (Input Register)"/>
+            <TextBox x:Name="txtStatus" Margin="0,5,0,10"/>
+
+            <TextBlock Text="Current Start (Holding)"/>
+            <TextBox x:Name="txtCurrent" Margin="0,5,0,10"/>
+
+            <TextBlock Text="Voltage Start (Holding)"/>
+            <TextBox x:Name="txtVoltage" Margin="0,5,0,10"/>
+
+            <TextBlock Text="Active Power"/>
+            <TextBox x:Name="txtP" Margin="0,5,0,10"/>
+
+            <TextBlock Text="Apparent Power"/>
+            <TextBox x:Name="txtS" Margin="0,5,0,20"/>
+
+            <TextBlock Text="Coil Open"/>
+            <TextBox x:Name="txtCoilOpen" Margin="0,5,0,5"/>
+
+            <TextBlock Text="Coil Close"/>
+            <TextBox x:Name="txtCoilClose" Margin="0,5,0,5"/>
+
+            <TextBlock Text="Coil Start"/>
+            <TextBox x:Name="txtCoilStart" Margin="0,5,0,5"/>
+
+            <TextBlock Text="Coil Stop"/>
+            <TextBox x:Name="txtCoilStop" Margin="0,5,0,5"/>
+
+            <TextBlock Text="Coil Fault"/>
+            <TextBox x:Name="txtCoilFault" Margin="0,5,0,10"/>
+
+            <GroupBox Header="Address Mode" Margin="0,10,0,15">
+                <StackPanel Margin="10">
+                    <RadioButton x:Name="rbPlc"
+                     Content="PLC Base (1-based addressing)"
+                     Margin="0,5"/>
+                    <RadioButton x:Name="rbZero"
+                     Content="Zero Based (0-based addressing)"
+                     Margin="0,5"/>
+                </StackPanel>
+            </GroupBox>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Cancel" Width="80" Margin="5" Click="BtnCancel_Click"/>
+                <Button Content="Save" Width="80" Margin="5" Click="BtnSave_Click"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>
