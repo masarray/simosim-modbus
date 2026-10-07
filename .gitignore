@@ -16,3 +16,6 @@ packages/
 # Local settings/secrets
 .env
 .env.*
+
+# Third-party licensed DLLs supplied locally or via Actions secrets
+Dependencies/
